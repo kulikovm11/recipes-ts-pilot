@@ -1,0 +1,31 @@
+
+.Main_Wrap{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+}
+
+.Search_wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.Search_wrap span {
+    color: #5C4EAE;
+}
+.Search_wrap p {
+    color: #676767;
+
+}
+.search_panel{
+    width: 200px;
+    height: 35px;
+    background-color: #EDEDED;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+}
+
+
+

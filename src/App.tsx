@@ -1,9 +1,10 @@
-import {RecipesComponent} from "./components";
+import {Header, RecipesComponent} from "./components";
 
 const App = () => {
 
     return (
         <div>
+            <Header/>
             <RecipesComponent/>
         </div>
     );
