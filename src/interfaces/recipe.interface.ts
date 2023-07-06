@@ -7,6 +7,10 @@ export interface IRecipe {
         url:string
         shareAs:string
         yield:number
+        ingredientLines:[]
+        cuisineType:[]
+        mealType:[]
+        dishType:[]
     }
 
 }

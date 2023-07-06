@@ -1,0 +1,22 @@
+.Accordion {
+    width: 450px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+
+.Ingr{
+    list-style-type: square;
+}
+.Ingr li {
+    font-family: cursive;
+}
+.Ingr li::marker{
+    color: #5C4EAE;
+}
+
+.Tags{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,9 +1,13 @@
-import React, {FC, useEffect, useState} from "react";
+import React, {FC, useRef, useState} from "react";
 
 import {searchRecipeService} from "../../services";
 import {IRecipe} from "../../interfaces";
 import {RecipeComponent} from "../Recipe/RecipeComponent";
 import css from './styles.module.css'
+import {Chip, CircularProgress} from "@mui/material";
+import {Simulate} from "react-dom/test-utils";
+
+
 
 
 
@@ -12,6 +16,8 @@ const RecipesComponent:FC = () => {
     const [recipes, setRecipes] = useState<IRecipe[]>([])
     const [query, setQuery] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const inputRef = useRef<HTMLInputElement>(null);
+
 
 
 
@@ -24,10 +30,10 @@ const RecipesComponent:FC = () => {
 
 
 
-   async function search(event:React.KeyboardEvent<HTMLInputElement>) {
+   async function search(event?: React.KeyboardEvent<HTMLInputElement>) {
         try {
             setIsLoading(true)
-            if (event.key === 'Enter'){
+            if (event?.key === 'Enter'){
               const {data} = await searchRecipeService.searchRecipe(`${query}`,0,16)
                 setQuery('')
                 setRecipes(data.hits)
@@ -39,6 +45,24 @@ const RecipesComponent:FC = () => {
         }
 
     }
+
+    function handleChipClick(chipValue: string) {
+        setQuery(chipValue);
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+
+    }
+
+
+
+    const ex = [
+        'milk',
+        'egg',
+        'tomato',
+        'banana',
+        'chicken'
+    ]
 
     return (
         <div >
@@ -52,11 +76,33 @@ const RecipesComponent:FC = () => {
                        onChange={event => setQuery(event.target.value)}
                        onKeyPress={search}
                        placeholder='Search...'
+                       ref={inputRef}
+
                 />
+
+
             </div>
+            <div className={css.Labels}>
+                <span className={css.examples} >Examples: </span>
+                {ex.map((i,index) => (
+                     <Chip label={i} variant="outlined" color="primary" key={index} style={{fontFamily:'cursive'}} onClick={()=> handleChipClick(i)} />
+
+                ))}
+            </div>
+
+
+
             <div className={css.Main_Wrap}>
 
-                {isLoading?<h2>Loading...</h2>:recipes.map((r,index)=><RecipeComponent recipe={r} key={index}/>)}
+                {isLoading?
+                    <div className={css.Loader}>
+                        <CircularProgress
+                            color="secondary"
+                        />
+                    </div>:
+                    recipes.map((r,index)=><RecipeComponent recipe={r} key={index}/>)
+                }
+
             </div>
         </div>
     );

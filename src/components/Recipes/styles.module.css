@@ -10,6 +10,11 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    font-family: cursive;
+}
+
+.Search_wrap input {
+    font-family: cursive;
 }
 .Search_wrap span {
     color: #5C4EAE;
@@ -26,6 +31,26 @@
     border-radius: 10px;
     text-align: center;
 }
+
+.Labels {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    align-items: center;
+}
+.examples{
+    color: #5C4EAE;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.Loader{
+    display: flex;
+    justify-content: center;
+    margin-top: 200px;
+    margin-left: 960px;
+}
+
 
 
 
