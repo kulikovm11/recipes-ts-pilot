@@ -79,6 +79,8 @@ const RecipesComponent:FC = () => {
                             onChange={event => setQuery(event.target.value)}
                             placeholder='Search...'
                             ref={inputRef}
+                            style={{ outline: 'none' }}
+
                         />
                         <Button type="submit" onClick={search}>
                             <SearchOutlinedIcon/>
