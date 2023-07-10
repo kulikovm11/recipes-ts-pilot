@@ -45,9 +45,9 @@ const RecipesComponent:FC = () => {
 
     function handleChipClick(chipValue: string) {
         setQuery(chipValue);
-        if (inputRef.current) {
-            inputRef.current.focus();
-        }
+        // if (inputRef.current) {
+        //     inputRef.current.focus();
+        // }
 
     }
 
@@ -68,8 +68,8 @@ const RecipesComponent:FC = () => {
                     <p>Find some recipes by inputting only one word</p>
                 <div className={css.Input}>
                     <form onSubmit={event => {
-                        event.preventDefault(); // Отменить стандартное поведение отправки формы
-                        search(); // Выполнить поиск
+                        event.preventDefault();
+                        search();
                     }}>
                         <input
                             type="text"
