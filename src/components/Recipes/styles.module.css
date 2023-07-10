@@ -31,6 +31,9 @@
     border-radius: 10px;
     text-align: center;
 }
+.Input{
+
+}
 
 .Labels {
     display: flex;
@@ -73,6 +76,8 @@
         align-items: center;
         padding: 5px;
     }
+
+
 }
 
 

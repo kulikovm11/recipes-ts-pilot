@@ -4,7 +4,9 @@ import {searchRecipeService} from "../../services";
 import {IRecipe} from "../../interfaces";
 import {RecipeComponent} from "../Recipe/RecipeComponent";
 import css from './styles.module.css'
-import {Chip, CircularProgress} from "@mui/material";
+import {Chip, Button, CircularProgress} from "@mui/material";
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+
 
 
 
@@ -21,20 +23,18 @@ const RecipesComponent:FC = () => {
 
 
 
-    async function search(event?: React.KeyboardEvent<HTMLInputElement>) {
+    async function search() {
         try {
             setIsLoading(true);
-            if (event?.key === 'Enter'){
-                const {data} = await searchRecipeService.searchRecipe(`${query}`, 0, 16);
-                setQuery('');
+            const { data } = await searchRecipeService.searchRecipe(`${query}`, 0, 16);
+            setQuery('');
 
-                if (data.hits.length === 0) {
-                    setIsNoResults(true);
-                    setRecipes([]);
-                } else {
-                    setIsNoResults(false);
-                    setRecipes(data.hits);
-                }
+            if (data.hits.length === 0) {
+                setIsNoResults(true);
+                setRecipes([]);
+            } else {
+                setIsNoResults(false);
+                setRecipes(data.hits);
             }
         } catch (err) {
             console.error(err);
@@ -65,17 +65,27 @@ const RecipesComponent:FC = () => {
         <div >
             <div className={css.Search_wrap}>
                 <h2>Enjoy Foods All Over The <span>World</span></h2>
-                <p>Find some recipes by inputting only one word</p>
-                <input type="text"
-                       className={css.search_panel}
-                       name='query'
-                       value={query}
-                       onChange={event => setQuery(event.target.value)}
-                       onKeyPress={search}
-                       placeholder='Search...'
-                       ref={inputRef}
+                    <p>Find some recipes by inputting only one word</p>
+                <div className={css.Input}>
+                    <form onSubmit={event => {
+                        event.preventDefault(); // Отменить стандартное поведение отправки формы
+                        search(); // Выполнить поиск
+                    }}>
+                        <input
+                            type="text"
+                            className={css.search_panel}
+                            name='query'
+                            value={query}
+                            onChange={event => setQuery(event.target.value)}
+                            placeholder='Search...'
+                            ref={inputRef}
+                        />
+                        <Button type="submit" onClick={search}>
+                            <SearchOutlinedIcon/>
+                        </Button>
+                    </form>
+                </div>
 
-                />
 
 
             </div>
