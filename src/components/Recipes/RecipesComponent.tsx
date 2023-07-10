@@ -5,7 +5,7 @@ import {IRecipe} from "../../interfaces";
 import {RecipeComponent} from "../Recipe/RecipeComponent";
 import css from './styles.module.css'
 import {Chip, CircularProgress} from "@mui/material";
-import {Simulate} from "react-dom/test-utils";
+
 
 
 
@@ -16,34 +16,31 @@ const RecipesComponent:FC = () => {
     const [recipes, setRecipes] = useState<IRecipe[]>([])
     const [query, setQuery] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [isNoResults, setIsNoResults] = useState(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
 
 
-
-
-    // useEffect(() => {
-    //     searchRecipeService.searchRecipe(`banana`,0,16).then(({data}) => setRecipes(data.hits))
-    // },[setRecipes])
-
-
-
-
-
-   async function search(event?: React.KeyboardEvent<HTMLInputElement>) {
+    async function search(event?: React.KeyboardEvent<HTMLInputElement>) {
         try {
-            setIsLoading(true)
+            setIsLoading(true);
             if (event?.key === 'Enter'){
-              const {data} = await searchRecipeService.searchRecipe(`${query}`,0,16)
-                setQuery('')
-                setRecipes(data.hits)
-            }
-        }catch (err) {
-            console.error(err)
-        }finally {
-            setIsLoading(false)
-        }
+                const {data} = await searchRecipeService.searchRecipe(`${query}`, 0, 16);
+                setQuery('');
 
+                if (data.hits.length === 0) {
+                    setIsNoResults(true);
+                    setRecipes([]);
+                } else {
+                    setIsNoResults(false);
+                    setRecipes(data.hits);
+                }
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     function handleChipClick(chipValue: string) {
@@ -57,7 +54,7 @@ const RecipesComponent:FC = () => {
 
 
     const ex = [
-        'milk',
+        'onion',
         'egg',
         'tomato',
         'banana',
@@ -94,14 +91,15 @@ const RecipesComponent:FC = () => {
 
             <div className={css.Main_Wrap}>
 
-                {isLoading?
+                {isLoading ? (
                     <div className={css.Loader}>
-                        <CircularProgress
-                            color="secondary"
-                        />
-                    </div>:
-                    recipes.map((r,index)=><RecipeComponent recipe={r} key={index}/>)
-                }
+                        <CircularProgress color="secondary" />
+                    </div>
+                ) : isNoResults ? (
+                    <div className={css.noResults}>nothing found :( try the correct word please</div>
+                ) : (
+                    recipes && recipes.map((r, index) => <RecipeComponent recipe={r} key={index} />)
+                )}
 
             </div>
         </div>
